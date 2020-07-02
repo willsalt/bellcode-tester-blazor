@@ -1,0 +1,67 @@
+﻿@using BellTest.Internals
+@implements IDisposable
+
+@inject IListener listener 
+@inject ICodeList codeList 
+
+<div class="tokeninstrument-toplevel">
+    <div><p>Please send the code: @_selectedCode</p></div>
+    <Telegraph Size="200" Active="@_lineActive" />
+    <Plunger Size="50" OnPush="@PlungerPushed" OnRelease="@PlungerReleased" />
+    <div><p>@_lastCodeReceivedAt</p></div>
+    <Score TotalPlayed="@totalPlayed" ScoredCorrect="@score" />
+</div>
+@if (showDebugInfo)
+{
+    <DebugInfo Data="@(_debugData.Select(d => d.ToString("HH:mm:ss.fff")))" />
+}
+@code {
+    private bool _lineActive;
+    private DateTime[] _debugData = Array.Empty<DateTime>();
+    private string _lastCodeReceivedAt = "";
+    private BellCode _selectedCode = null;
+    private int totalPlayed = 0;
+    private int score = 0;
+    private bool showDebugInfo = true;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        listener.BellCodeParsed += BellCodeReceived;
+        _selectedCode = codeList.GetRandomCode();
+    }
+
+    public void Dispose()
+    {
+        listener.BellCodeParsed -= BellCodeReceived;
+    }
+
+    private void PlungerPushed(MouseEventArgs e)
+    {
+        _lineActive = true;
+        listener.RecordPush();
+        _debugData = listener.GetData().ToArray();
+    }
+
+    private void PlungerReleased(MouseEventArgs e)
+    {
+        _lineActive = false;
+        listener.RecordRelease();
+    }
+
+    private void BellCodeReceived(object src, BellCodeEventArgs e)
+    {
+        if (e.Code == _selectedCode.Code)
+        {
+            _lastCodeReceivedAt = "Correct!";
+            score++;
+        }
+        else
+        {
+            _lastCodeReceivedAt = $"You sent {e.Code} but you were asked to send {_selectedCode.Code}";
+        }
+        totalPlayed++;
+        _selectedCode = codeList.GetRandomCode();
+        StateHasChanged();
+    }
+}

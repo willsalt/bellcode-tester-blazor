@@ -1,0 +1,16 @@
+﻿<div class="border border-dark rounded">
+    <h3>Debug Info</h3>
+    @if (Data != null)
+    {
+        @foreach (var datum in Data)
+        {
+            <p>@datum</p>
+        }
+    }
+</div>
+
+@code
+{
+    [Parameter]
+    public IEnumerable<string> Data { get; set; }
+}
