@@ -12,7 +12,7 @@ namespace BellTest.Internals
         private bool disposedValue;
         private readonly Timer _timer;
         private const int _timeout = 1000;
-        private const int _groupGap = 320;
+        private const int _groupGap = 350;
 
         public event BellCodeEventHandler BellCodeParsed;
 
