@@ -1,0 +1,7 @@
+﻿.telegraph_needle {
+    transition: transform 50ms linear 0s;
+}
+
+.telegraph_needleActive {
+    transform: rotate(25deg);
+}

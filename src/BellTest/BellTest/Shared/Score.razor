@@ -1,0 +1,17 @@
+﻿<div>
+    @if (TotalPlayed > 0)
+    {
+        <p>Score: @(ScoredCorrect)/@TotalPlayed</p>
+    }
+    else
+    {
+        <p>Score: 0</p>
+    }
+</div>
+@code {
+    [Parameter]
+    public int TotalPlayed { get; set; }
+
+    [Parameter]
+    public int ScoredCorrect { get; set; }
+}

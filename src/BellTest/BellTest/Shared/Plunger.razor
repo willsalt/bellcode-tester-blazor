@@ -1,0 +1,47 @@
+﻿<svg width="@Size" height="@Size" viewBox="-50 -50 100 100" @onmousedown="PlungerPressed" @onmouseup="PlungerReleased" @onmouseover="MouseEntered" @onmouseout="MouseLeft">
+    <circle cx="0" cy="0" r="50" fill="black" />
+    <circle cx="0" cy="0" r="45" fill="#ffff44" />
+</svg>
+
+@code {
+    [Parameter]
+    public int Size { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnPush { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnRelease { get; set; }
+
+    private bool _state;
+
+    private void PlungerPressed(MouseEventArgs e)
+    {
+        _state = true;
+        OnPush.InvokeAsync(e);
+    }
+
+    private void PlungerReleased(MouseEventArgs e)
+    {
+        _state = false;
+        OnRelease.InvokeAsync(e);
+    }
+
+    private void MouseEntered(MouseEventArgs e)
+    {
+        if ((e.Buttons & 1) != 0  && !_state)
+        {
+            _state = true;
+            OnPush.InvokeAsync(e);
+        }
+    }
+
+    private void MouseLeft(MouseEventArgs e)
+    {
+        if (_state)
+        {
+            _state = false;
+            OnRelease.InvokeAsync(e);
+        }
+    }
+}
