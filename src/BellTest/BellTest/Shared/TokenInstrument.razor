@@ -51,6 +51,7 @@
     private void PlungerPushed(MouseEventArgs e)
     {
         _lineActive = true;
+        _lastCodeReceivedAt = "";
         listener.RecordPush();
         _debugData = listener.GetData().ToArray();
     }
