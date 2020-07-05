@@ -1,4 +1,9 @@
 ﻿.tokeninstrument-toplevel {
     background-color: #ff0000;
     border: 2px solid black;
+    color: #f7eb00;
+}
+
+.tokeninstrument-toplevel p {
+    color: #fffa9d;
 }
