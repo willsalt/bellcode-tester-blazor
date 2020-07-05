@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Timers;
 
@@ -60,7 +60,7 @@ namespace BellTest.Internals
             var longGaps = gaps.Select((g, i) => new { Gap = g, Index = i }).Where(g => g.Gap > maxGap).Select(g => g.Index).ToList();
             if (longGaps.Count == 0)
             {
-                return _bells.Count.ToString();
+                return _bells.Count.ToString(CultureInfo.CurrentCulture);
             }
             List<int> groups = new List<int>(longGaps.Count + 1);
             for (int i = 0; i < longGaps.Count; ++i)
