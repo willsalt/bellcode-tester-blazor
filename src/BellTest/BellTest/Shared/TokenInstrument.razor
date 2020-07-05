@@ -4,12 +4,24 @@
 @inject IListener listener 
 @inject ICodeList codeList 
 
-<div class="tokeninstrument-toplevel rounded p-5">
-    <div><p>Please send the code: @_selectedCode</p></div>
-    <Telegraph Size="200" Active="@_lineActive" />
-    <Plunger Size="50" OnPush="@PlungerPushed" OnRelease="@PlungerReleased" />
-    <div><p>@_lastCodeReceivedAt</p></div>
-    <Score TotalPlayed="@totalPlayed" ScoredCorrect="@score" />
+<div class="tokeninstrument-toplevel container rounded p-md-3 p-1 mb-2">
+    <div class="row">
+        <div class="col"><p>Please send the code: @_selectedCode</p></div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col text-center">
+            <Telegraph Size="200" Active="@_lineActive" />
+        </div>
+        <div class="col text-center">
+            <Plunger Size="50" OnPush="@PlungerPushed" OnRelease="@PlungerReleased" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8 text-left"><p>@_lastCodeReceivedAt</p></div>
+        <div class="col-4 text-right">
+            <Score TotalPlayed="@totalPlayed" ScoredCorrect="@score" />
+        </div>
+    </div>
 </div>
 @if (showDebugInfo)
 {
