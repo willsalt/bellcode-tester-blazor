@@ -1,7 +1,7 @@
 ﻿<div>
     @if (TotalPlayed > 0)
     {
-        <p>Score: @(ScoredCorrect)/@TotalPlayed</p>
+        <p>Score: @(ScoredCorrect)/@TotalPlayed <button @onclick="@(() => ResetScore.InvokeAsync(this))" class="btn btn-outline-light">Reset</button></p>
     }
     else
     {
@@ -14,4 +14,7 @@
 
     [Parameter]
     public int ScoredCorrect { get; set; }
+
+    [Parameter]
+    public EventCallback ResetScore { get; set; }
 }
