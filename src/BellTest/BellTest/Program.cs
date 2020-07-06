@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using BellTest.Internals;
+using Blazored.Modal;
 
 namespace BellTest
 {
@@ -13,6 +14,7 @@ namespace BellTest
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
+            builder.Services.AddBlazoredModal();
             builder.Services.AddSingleton<IListener, Listener>();
             builder.Services.AddSingleton<ICodeList, CodeList>();
             builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
