@@ -6,7 +6,7 @@ namespace BellTest.Internals
 {
     public class CodeList : ICodeList
     {
-        private readonly BellCode[] _codes = new BellCode[]
+        private readonly BellCode[] codes = new BellCode[]
         {
             new BellCode("1", "Call Attention"),
             new BellCode("1-2", "Pick up the phone"),
@@ -50,16 +50,16 @@ namespace BellTest.Internals
             new BellCode("2-8", "Home Signal Defective"),
         };
 
-        private static readonly Random _rnd = new Random();
+        private static readonly Random rnd = new Random();
 
         public BellCode GetRandomCode()
         {
-            return _codes[_rnd.Next(_codes.Length)];
+            return codes[rnd.Next(codes.Length)];
         }
 
         public IEnumerable<BellCode> GetAllCodes()
         {
-            return _codes.ToArray();
+            return codes.ToArray();
         }
     }
 }
