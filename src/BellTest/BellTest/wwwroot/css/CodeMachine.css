@@ -1,0 +1,19 @@
+﻿.codemachine-toplevel {
+    background-color: #ff0000;
+    border: 2px solid black;
+    user-select: none;
+}
+
+    .codemachine-toplevel p {
+        color: #fffa9d;
+    }
+
+    .codemachine-toplevel .btn-outline-light {
+        color: #fffa9d;
+        border-color: #fffa9d;
+    }
+
+        .codemachine-toplevel .btn-outline-light:hover {
+            background-color: #fffa9d;
+            color: black;
+        }
