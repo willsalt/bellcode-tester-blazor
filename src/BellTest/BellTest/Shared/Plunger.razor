@@ -14,34 +14,34 @@
     [Parameter]
     public EventCallback<MouseEventArgs> OnRelease { get; set; }
 
-    private bool _state;
+    private bool state;
 
     private void PlungerPressed(MouseEventArgs e)
     {
-        _state = true;
+        state = true;
         OnPush.InvokeAsync(e);
     }
 
     private void PlungerReleased(MouseEventArgs e)
     {
-        _state = false;
+        state = false;
         OnRelease.InvokeAsync(e);
     }
 
     private void MouseEntered(MouseEventArgs e)
     {
-        if ((e.Buttons & 1) != 0  && !_state)
+        if ((e.Buttons & 1) != 0  && !state)
         {
-            _state = true;
+            state = true;
             OnPush.InvokeAsync(e);
         }
     }
 
     private void MouseLeft(MouseEventArgs e)
     {
-        if (_state)
+        if (state)
         {
-            _state = false;
+            state = false;
             OnRelease.InvokeAsync(e);
         }
     }

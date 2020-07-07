@@ -6,18 +6,18 @@
 
 <div class="tokeninstrument-toplevel container rounded p-md-3 p-1 mb-2">
     <div class="row">
-        <div class="col"><p>Please send the code: @_selectedCode</p></div>
+        <div class="col"><p>Please send the code: @selectedCode</p></div>
     </div>
     <div class="row align-items-center">
         <div class="col text-center">
-            <Telegraph Size="200" Active="@_lineActive" />
+            <Telegraph Size="200" Active="@lineActive" />
         </div>
         <div class="col text-center">
             <Plunger Size="50" OnPush="@PlungerPushed" OnRelease="@PlungerReleased" />
         </div>
     </div>
     <div class="row">
-        <div class="col-8 text-left"><p>@_lastCodeReceivedAt</p></div>
+        <div class="col-8 text-left"><p>@lastCodeResult</p></div>
         <div class="col-4 text-right">
             <Score TotalPlayed="@totalPlayed" ScoredCorrect="@score" ResetScore="@ResetScore"/>
         </div>
@@ -30,13 +30,13 @@
 </div>
 @if (showDebugInfo)
 {
-    <DebugInfo Data="@(_debugData.Select(d => d.ToString("HH:mm:ss.fff")))" />
+    <DebugInfo Data="@(debugData.Select(d => d.ToString("HH:mm:ss.fff")))" />
 }
 @code {
-    private bool _lineActive;
-    private DateTime[] _debugData = Array.Empty<DateTime>();
-    private string _lastCodeReceivedAt = "";
-    private BellCode _selectedCode = null;
+    private bool lineActive;
+    private DateTime[] debugData = Array.Empty<DateTime>();
+    private string lastCodeResult = "";
+    private BellCode selectedCode = null;
     private int totalPlayed = 0;
     private int score = 0;
     private bool showDebugInfo = false;
@@ -45,7 +45,7 @@
     {
         base.OnInitialized();
         listener.BellCodeParsed += BellCodeReceived;
-        _selectedCode = codeList.GetRandomCode();
+        selectedCode = codeList.GetRandomCode();
     }
 
     public void Dispose()
@@ -55,31 +55,31 @@
 
     private void PlungerPushed(MouseEventArgs e)
     {
-        _lineActive = true;
-        _lastCodeReceivedAt = "";
+        lineActive = true;
+        lastCodeResult = "";
         listener.RecordPush();
-        _debugData = listener.GetData().ToArray();
+        debugData = listener.GetData().ToArray();
     }
 
     private void PlungerReleased(MouseEventArgs e)
     {
-        _lineActive = false;
+        lineActive = false;
         listener.RecordRelease();
     }
 
     private void BellCodeReceived(object src, BellCodeEventArgs e)
     {
-        if (e.Code == _selectedCode.Code)
+        if (e.Code == selectedCode.Code)
         {
-            _lastCodeReceivedAt = "Correct!";
+            lastCodeResult = "Correct!";
             score++;
         }
         else
         {
-            _lastCodeReceivedAt = $"You sent {e.Code} but you were asked to send {_selectedCode.Code}";
+            lastCodeResult = $"You sent {e.Code} but you were asked to send {selectedCode.Code}";
         }
         totalPlayed++;
-        _selectedCode = codeList.GetRandomCode();
+        selectedCode = codeList.GetRandomCode();
         StateHasChanged();
     }
 

@@ -1,4 +1,4 @@
-@inject IModalService Modal
+@inject IModalService modal
 
 <div class="p-md-3 p-1 mb-2">
     <h3>Instructions</h3>
@@ -16,5 +16,5 @@
         Running in your browser using <a href="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor">Blazor Webassembly 3.2.0</a>.
         The source code is <a href="https://github.com/willsalt/bellcode-tester-blazor/">hosted on GitHub.</a>
     </p>
-    <p><button @onclick="@(() => Modal.Show<CodeListDialog>("Bell codes"))" class="btn btn-primary">Show bell codes</button></p>
+    <p><button @onclick="@(() => modal.Show<CodeListDialog>("Bell codes"))" class="btn btn-primary">Show bell codes</button></p>
 </div>
