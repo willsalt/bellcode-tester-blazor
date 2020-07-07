@@ -7,3 +7,13 @@
 .tokeninstrument-toplevel p {
     color: #fffa9d;
 }
+
+.tokeninstrument-toplevel .btn-outline-light {
+    color: #fffa9d;
+    border-color: #fffa9d;
+}
+
+.tokeninstrument-toplevel .btn-outline-light:hover {
+    background-color: #fffa9d;
+    color: black;
+}
