@@ -40,7 +40,7 @@ namespace BellTest.Internals
 
         private void OnTimerEvent(object source, ElapsedEventArgs e)
         {
-            BellCodeEventArgs args = new BellCodeEventArgs { CodeReceivedTime = _bells.Last(), Code = ParseBells() };
+            BellCodeEventArgs args = new BellCodeEventArgs(_bells.Last(), ParseBells());
             _bells.Clear();
             BellCodeParsed?.Invoke(this, args);
         }
