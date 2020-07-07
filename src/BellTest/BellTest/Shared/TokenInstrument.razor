@@ -4,31 +4,48 @@
 @inject IListener listener 
 @inject ICodeList codeList 
 
-<div class="tokeninstrument-toplevel rounded p-5">
-    <div><p>Please send the code: @_selectedCode</p></div>
-    <Telegraph Size="200" Active="@_lineActive" />
-    <Plunger Size="50" OnPush="@PlungerPushed" OnRelease="@PlungerReleased" />
-    <div><p>@_lastCodeReceivedAt</p></div>
-    <Score TotalPlayed="@totalPlayed" ScoredCorrect="@score" />
+<div class="tokeninstrument-toplevel container rounded p-md-3 p-1 mb-2">
+    <div class="row">
+        <div class="col"><p>Please send the code: @selectedCode</p></div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col text-center">
+            <Telegraph Size="200" Active="@lineActive" />
+        </div>
+        <div class="col text-center">
+            <Plunger Size="50" OnPush="@PlungerPushed" OnRelease="@PlungerReleased" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8 text-left"><p>@lastCodeResult</p></div>
+        <div class="col-4 text-right">
+            <Score TotalPlayed="@totalPlayed" ScoredCorrect="@score" ResetScore="@ResetScore"/>
+        </div>
+    </div>
+</div>
+<Instructions />
+<div class="p-md-3 p-1 mb-2">
+    <input class="form-check-input" type="checkbox" @bind="@showDebugInfo" id="showDebugCheckbox" />
+    <label class="form-check-label" for="showDebugCheckbox">Show debug information?</label>
 </div>
 @if (showDebugInfo)
 {
-    <DebugInfo Data="@(_debugData.Select(d => d.ToString("HH:mm:ss.fff")))" />
+    <DebugInfo Data="@(debugData.Select(d => d.ToString("HH:mm:ss.fff")))" />
 }
 @code {
-    private bool _lineActive;
-    private DateTime[] _debugData = Array.Empty<DateTime>();
-    private string _lastCodeReceivedAt = "";
-    private BellCode _selectedCode = null;
+    private bool lineActive;
+    private DateTime[] debugData = Array.Empty<DateTime>();
+    private string lastCodeResult = "";
+    private BellCode selectedCode = null;
     private int totalPlayed = 0;
     private int score = 0;
-    private bool showDebugInfo = true;
+    private bool showDebugInfo = false;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         listener.BellCodeParsed += BellCodeReceived;
-        _selectedCode = codeList.GetRandomCode();
+        selectedCode = codeList.GetRandomCode();
     }
 
     public void Dispose()
@@ -38,30 +55,38 @@
 
     private void PlungerPushed(MouseEventArgs e)
     {
-        _lineActive = true;
+        lineActive = true;
+        lastCodeResult = "";
         listener.RecordPush();
-        _debugData = listener.GetData().ToArray();
+        debugData = listener.GetData().ToArray();
     }
 
     private void PlungerReleased(MouseEventArgs e)
     {
-        _lineActive = false;
+        lineActive = false;
         listener.RecordRelease();
     }
 
     private void BellCodeReceived(object src, BellCodeEventArgs e)
     {
-        if (e.Code == _selectedCode.Code)
+        if (e.Code == selectedCode.Code)
         {
-            _lastCodeReceivedAt = "Correct!";
+            lastCodeResult = "Correct!";
             score++;
         }
         else
         {
-            _lastCodeReceivedAt = $"You sent {e.Code} but you were asked to send {_selectedCode.Code}";
+            lastCodeResult = $"You sent {e.Code} but you were asked to send {selectedCode.Code}";
         }
         totalPlayed++;
-        _selectedCode = codeList.GetRandomCode();
+        selectedCode = codeList.GetRandomCode();
+        StateHasChanged();
+    }
+
+    private void ResetScore(object src)
+    {
+        score = 0;
+        totalPlayed = 0;
         StateHasChanged();
     }
 }

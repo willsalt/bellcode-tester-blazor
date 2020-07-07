@@ -1,0 +1,18 @@
+﻿@using BellTest.Internals
+@inject ICodeList codeList
+
+<div class="codelistdialog-content">
+    <table>
+        <tr>
+            <th>Code</th>
+            <th>Description</th>
+        </tr>
+        @foreach (BellCode c in codeList.GetAllCodes())
+        {
+            <tr>
+                <td>@c.Code</td>
+                <td>@c.Description</td>
+            </tr>
+        }
+    </table>
+</div>

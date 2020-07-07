@@ -1,6 +1,7 @@
 ﻿<svg width="@Size" height="@Size" viewBox="-50 -50 100 100" @onmousedown="PlungerPressed" @onmouseup="PlungerReleased" @onmouseover="MouseEntered" @onmouseout="MouseLeft">
     <circle cx="0" cy="0" r="50" fill="black" />
-    <circle cx="0" cy="0" r="45" fill="#ffff44" />
+    <circle cx="0" cy="0" r="45" fill="#fffa44" />
+    <ellipse cx="0" cy="30" rx="15" ry="7" transform="rotate(210)" fill="#fffa9d" />
 </svg>
 
 @code {
@@ -13,34 +14,34 @@
     [Parameter]
     public EventCallback<MouseEventArgs> OnRelease { get; set; }
 
-    private bool _state;
+    private bool state;
 
     private void PlungerPressed(MouseEventArgs e)
     {
-        _state = true;
+        state = true;
         OnPush.InvokeAsync(e);
     }
 
     private void PlungerReleased(MouseEventArgs e)
     {
-        _state = false;
+        state = false;
         OnRelease.InvokeAsync(e);
     }
 
     private void MouseEntered(MouseEventArgs e)
     {
-        if ((e.Buttons & 1) != 0  && !_state)
+        if ((e.Buttons & 1) != 0  && !state)
         {
-            _state = true;
+            state = true;
             OnPush.InvokeAsync(e);
         }
     }
 
     private void MouseLeft(MouseEventArgs e)
     {
-        if (_state)
+        if (state)
         {
-            _state = false;
+            state = false;
             OnRelease.InvokeAsync(e);
         }
     }
