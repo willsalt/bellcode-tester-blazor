@@ -12,6 +12,12 @@
         <div class="col text-center">
             <Telegraph Size="200" Active="@lineActive" />
         </div>
+        @if (showDebugInfo)
+        {
+            <div class="col text-center">
+                <p>@lineActive</p>
+            </div>
+        }
         <div class="col text-center">
             <Plunger Size="50" OnPush="@PlungerPushed" OnRelease="@PlungerReleased" />
         </div>
@@ -53,7 +59,7 @@
         listener.BellCodeParsed -= BellCodeReceived;
     }
 
-    private void PlungerPushed(MouseEventArgs e)
+    private void PlungerPushed(PointerEventArgs e)
     {
         lineActive = true;
         lastCodeResult = "";
@@ -61,7 +67,7 @@
         debugData = listener.GetData().ToArray();
     }
 
-    private void PlungerReleased(MouseEventArgs e)
+    private void PlungerReleased(PointerEventArgs e)
     {
         lineActive = false;
         listener.RecordRelease();
